@@ -1,6 +1,5 @@
 require 'shoppe/kiwipay/version'
 require 'shoppe/kiwipay/engine'
-require 'shoppe/kiwipay/routing_constraints'
 
 module Shoppe
   module Kiwipay
