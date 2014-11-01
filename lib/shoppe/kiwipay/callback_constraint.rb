@@ -2,7 +2,7 @@ module Shoppe
   module Kiwipay
     class CallbackConstraint
       def matches?(request)
-        Shoppe::Kiwipay.callback_path_component == request.path_components[:callback]
+        Shoppe::Kiwipay.configuration.callback_path == request.path_parameters[:callback]
       end
     end
   end

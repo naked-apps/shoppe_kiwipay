@@ -1,5 +1,10 @@
-require 'shoppe/kiwipay/routing_constraints'
+require 'shoppe/kiwipay/callback_constraint'
 
-Shoppe::Engine.routes.draw do
-  get 'kiwipay/*callback' => 'payments#process_callback', as: 'kiwipay_callback', constraints: Shoppe::Kiwipay::CallbackConstraint.new
+Rails.application.routes.draw do
+  scope module: :shoppe do
+    namespace :kiwipay do
+      get 'pay/:order_token', to: 'payments#pay', as: 'payment'
+      post '*callback', to: 'payments#process_callback', as: 'callback', constraints: Shoppe::Kiwipay::CallbackConstraint.new
+    end
+  end
 end

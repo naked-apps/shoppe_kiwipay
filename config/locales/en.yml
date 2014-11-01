@@ -2,10 +2,7 @@ en:
   shoppe:
     settings:
       labels:
-        kiwipay_callback_path_component: Callback Path Component
+        kiwipay_account_name: Account Name
       
       help:
-        kiwipay_callback_path_component: This is the final path component of the URL you want Kiwipay to send its JSON callback after a payment has been made.  The URL is built by prefixing /kiwipay/ to your entered path component.  You need to organise this callback with Kiwipay support before this will work.
-      
-      defaults:
-        kiwipay_callback_path_component: payment
+        kiwipay_account_name: This is the last path component in your Kiwipay payment URL.  E.g. mybusiness for http://www.kiwipay.co.nz/pay/mybusiness
