@@ -7,7 +7,7 @@ module Shoppe
           payment = Shoppe::Payment.new
           payment.method = "Kiwipay"
           payment.reference = params[:id]
-          payment.amount = params[:amount] / 100
+          payment.amount = BigDecimal(params[:amount]) / BigDecimal(100)
           payment.order = self
           payment.save!
           true
@@ -18,7 +18,7 @@ module Shoppe
 
       def kiwipay_payment_parameters
         params = {
-          price: self.total.to_s,
+          price: self.total.round(2).to_s,
           description: self.id,
           email: self.email_address,
           address1: self.billing_address1,
