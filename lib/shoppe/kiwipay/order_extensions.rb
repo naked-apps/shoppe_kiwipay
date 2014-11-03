@@ -38,9 +38,7 @@ module Shoppe
       end
 
       def kiwipay_payment_valid?(params)
-        if Rails.env.production? 
-          return false if self.token.to_s != params[:custom].to_s
-        end
+        return false if self.token.to_s != params[:custom].to_s
         return false if self.id.to_s != params[:reference].to_s
         return false if self.email_address.to_s != params[:email].to_s
         true

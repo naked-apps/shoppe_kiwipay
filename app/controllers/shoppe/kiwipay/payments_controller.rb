@@ -8,7 +8,9 @@ module Shoppe
       def process_callback
         ensure_callback_params!
         permitted = params.permit(:id, :custom, :reference, :amount, :status, :name, :email, address: [:street, :region, :city, :zip, :country])
-        order = Rails.env.production? ? Shoppe::Order.find_by_token!(permitted[:custom]) : Shoppe::Order.find_by_id!(permitted[:reference])
+        order = Shoppe::Order.find_by_token!(permitted[:custom])
+        # Only received orders can have payments against them
+        # as they're changed from received to accepted after payment
         if order.status == 'received'
           if order.create_kiwipay_payment(permitted)
             order.accept!
@@ -29,16 +31,14 @@ module Shoppe
         end
 
         payment_params = order.kiwipay_payment_parameters
-        payment_params[:return_url] = return_url(Rails.env.production? ? order.token : order.id)
+        payment_params[:return_url] = return_url(order.token)
         redirect_to "#{payment_url}?#{payment_params.to_query}"
       end
 
       private
 
       def ensure_callback_params!
-        if Rails.env.production?
-          params.require(:custom)
-        end
+        params.require(:custom)
         params.require(:id)
         params.require(:reference)
         params.require(:amount)
