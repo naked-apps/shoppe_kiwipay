@@ -40,7 +40,7 @@ module Shoppe
       def kiwipay_payment_valid?(params)
         return false if self.token.to_s != params[:custom].to_s
         return false if self.id.to_s != params[:reference].to_s
-        return false if self.email_address.to_s != params[:email].to_s
+        return false if self.email_address.to_s.downcase != params[:email].to_s.downcase
         true
       end
 
